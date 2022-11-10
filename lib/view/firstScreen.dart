@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:khatabook/model/data_Model.dart';
 import 'package:khatabook/view/add%20_customer_Screen.dart';
-
+import 'package:khatabook/view/detile_screen.dart';
 import '../controller/cilent_controller.dart';
 import '../controller/dbhelpre_cilent.dart';
 
@@ -115,50 +116,59 @@ class _First_ScreenState extends State<First_Screen> {
               child: ListView.builder(
                 itemCount:cilent_controller.CilentList.value.length,
                 itemBuilder: (Context,index){
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width*0.95,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.black12,
-                      ),
-                      child: ListTile(
-                        leading: Text("🙍‍",style:TextStyle(fontSize: 30,),),
-                        title: Text("${cilent_controller.CilentList.value[index]['name']}",style: TextStyle(color: Colors.black),),
-                        subtitle: Text("${cilent_controller.CilentList.value[index]['mobile']}",),
-                        trailing: PopupMenuButton(itemBuilder: (context) => [
-                          PopupMenuItem(child: InkWell(onTap: (){
-                            utxtname =TextEditingController(text: "${cilent_controller.CilentList.value[index]['name']}");
-                            utxtmoblie =TextEditingController(text: "${cilent_controller.CilentList.value[index]['mobile']}");
-                            utxtaddress =TextEditingController(text: "${cilent_controller.CilentList.value[index]['address']}");
+                  return InkWell(onTap: (){
+                    cilent_controller.Datapick = Data_Model(
+                      name: cilent_controller.CilentList.value[index]['name'],
+                      address: cilent_controller.CilentList.value[index]['address'],
+                      mobile: cilent_controller.CilentList.value[index]['mobile'],
+                    );
+                    Get.to(Detile_Screen());
+                  },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width*0.95,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.black12,
+                        ),
+                        child: ListTile(
+                          leading: Text("🙍‍",style:TextStyle(fontSize: 30,),),
+                          title: Text("${cilent_controller.CilentList.value[index]['name']}",style: TextStyle(color: Colors.black),),
+                          subtitle: Text("${cilent_controller.CilentList.value[index]['mobile']}",),
+                          trailing: PopupMenuButton(itemBuilder: (context) => [
+                            PopupMenuItem(child: InkWell(onTap: (){
+                              utxtname =TextEditingController(text: "${cilent_controller.CilentList.value[index]['name']}");
+                              utxtmoblie =TextEditingController(text: "${cilent_controller.CilentList.value[index]['mobile']}");
+                              utxtaddress =TextEditingController(text: "${cilent_controller.CilentList.value[index]['address']}");
 
-                            Get.defaultDialog(
-                              content: Column(
-                                children: [
-                                  TextField(
-                                    controller: utxtname,decoration: InputDecoration(hintText: "Name",),),
-                                  TextField(
-                                    controller: utxtmoblie,decoration: InputDecoration(hintText: "Moblie",),),
-                                  TextField(
-                                    controller: utxtaddress,decoration: InputDecoration(hintText: "address",),),
-                                  SizedBox(height: 10,),
-                                  ElevatedButton(onPressed: (){
-                                    DbHelper dp = DbHelper();
-                                    dp.updatedata("${cilent_controller.CilentList.value[index]['id']}",utxtname.text, utxtmoblie.text,utxtaddress.text);
-                                    getData();
-                                  },child:Text("update")),
-                                ],
-                              ),
-                            );
+                              Get.defaultDialog(
+                                content: Column(
+                                  children: [
+                                    TextField(
+                                      controller: utxtname,decoration: InputDecoration(hintText: "Name",),),
+                                    TextField(
+                                      controller: utxtmoblie,decoration: InputDecoration(hintText: "Moblie",),),
+                                    TextField(
+                                      controller: utxtaddress,decoration: InputDecoration(hintText: "address",),),
+                                    SizedBox(height: 10,),
+                                    ElevatedButton(onPressed: (){
+                                      DbHelper dp = DbHelper();
+                                      dp.updatedata("${cilent_controller.CilentList.value[index]['id']}",utxtname.text, utxtmoblie.text,utxtaddress.text);
+                                      getData();
+                                    },child:Text("update")),
+                                  ],
+                                ),
+                              );
 
-                            },child: Text('update'))),
-                          PopupMenuItem(child: InkWell(onTap: (){
-                            DbHelper dp = DbHelper();
-                            dp.deletedata("${cilent_controller.CilentList.value[index]['id']}");
-                            getData();
-                            },child: Text('Delete'))),
-                        ],)
+                              },child: Text('update'))),
+                            PopupMenuItem(child: InkWell(onTap: (){
+                              DbHelper dp = DbHelper();
+                              dp.deletedata("${cilent_controller.CilentList.value[index]['id']}");
+                              getData();
+                              },child: Text('Delete'))),
+                          ],)
+                        ),
                       ),
                     ),
                   );
