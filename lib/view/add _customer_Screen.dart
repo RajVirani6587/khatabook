@@ -34,6 +34,7 @@ class _AddCustomer_ScreenState extends State<AddCustomer_Screen> {
     return SafeArea(
         child: Scaffold(
           appBar: AppBar(
+            backgroundColor: Colors.blue.shade700,
             leading: IconButton(onPressed: (){
               Get.back();
             }, icon:Icon(Icons.arrow_back)),
