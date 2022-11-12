@@ -106,6 +106,7 @@ class _Detile_ScreenState extends State<Detile_Screen> {
                     child: Row(
                       children: [
                         Container(
+
                           height: 60,
                           width: MediaQuery.of(context).size.width*0.60,
                           child: Row(
@@ -115,19 +116,24 @@ class _Detile_ScreenState extends State<Detile_Screen> {
                                  padding: EdgeInsets.only(left: 10),
                                  child: Text("Date/Time"),
                                ),
-                               Text("Remark"),
+                               Padding(
+                                 padding: const EdgeInsets.only(right: 5),
+                                 child: Text("Remark"),
+                               ),
                             ],
                           ),
                         ),
-                        SizedBox(width: 10,),
+
                         Container(
                           height: 60,
                           width: MediaQuery.of(context).size.width*0.35,
                           child:Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text("Remaind"),
+                              SizedBox(width: 10,),
                               Container(height: 15,width: 0.5,color: Colors.black,),
+                              SizedBox(width: 10,),
                               Text("Done"),
                             ],
                           ),
@@ -135,28 +141,57 @@ class _Detile_ScreenState extends State<Detile_Screen> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 5,),
-                  // Row(
-                  //   children: [
-                  //     Container(
-                  //       height: 100,
-                  //       width: MediaQuery.of(context).size.width*0.60,
-                  //       child: Row(
-                  //         children: [
-                  //
-                  //         ],
-                  //       ),
-                  //     ),
-                  //     Container(
-                  //       height: 100,
-                  //       width:MediaQuery.of(context).size.width*0.20,
-                  //     ),
-                  //     Container(
-                  //       height: 100,
-                  //       width:MediaQuery.of(context).size.width*0.20,
-                  //     ),
-                  //   ],
-                  // ),
+                  ListView.builder(
+                    itemCount:.length,
+                    itemBuilder: (context,index){return },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        color: Colors.black12,
+                        height: 60,
+                        width: MediaQuery.of(context).size.width*0.99,
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 60,
+                              width: MediaQuery.of(context).size.width*0.55,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Text("9-11-2022"),
+                                      Text("6",)
+                                    ],
+                                  ),
+                                  Text("suger"),
+                                ],
+                              ),
+                            ),
+                            SizedBox(width: 10,),
+
+                            Container(
+                              height: 60,
+                              width:MediaQuery.of(context).size.width*0.19,
+                              color: Colors.red.shade200,
+                              child: Center(
+                                child: Text("₹ 909",style: TextStyle(color: Colors.red),),
+                              ),
+                            ),
+                            Container(
+                              height: 60,
+                              width:MediaQuery.of(context).size.width*0.19,
+                              color: Colors.greenAccent,
+                              child: Center(
+                                child: Text("₹ 10100",style: TextStyle(color: Colors.green),),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
 
 
                 ],

@@ -67,6 +67,7 @@ class _AddCustomer_ScreenState extends State<AddCustomer_Screen> {
                   controller: txtmoblie,
                   decoration: InputDecoration(
                       prefixIcon: Icon(Icons.call),
+                      prefixText: "+91 ",
                       label: Text("Mobile No"),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(width: 2),

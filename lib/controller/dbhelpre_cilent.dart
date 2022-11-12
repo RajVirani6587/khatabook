@@ -22,9 +22,9 @@ class DbHelper{
     String  path =  join(folder.path,"rnw.db");
     return  openDatabase(path,version:1,onCreate:(db,version){
       String query = "CREATE TABLE cilent(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT,mobile TEXT,address TEXT)";
-      String proquery = "CREATE TABLE product(id INTEGER PRIMARY KEY AUTOINCREMENT,productname TEXT,quantity TEXT,price TEXT,purchasedate TEXT,pendingdate TEXT)";
+      String proquery = "CREATE TABLE product(id INTEGER PRIMARY KEY AUTOINCREMENT,productname TEXT,quantity TEXT,price TEXT,purchasedate TEXT,client_id INTEGER,payment_status INTEGER)";
       db.execute(query);
-      db.execute(query);
+      db.execute(proquery);
     });
   }
 
@@ -51,24 +51,15 @@ class DbHelper{
   }
 
 
-
-
-
-  void ProinsertData(String n1,String q1 ,String p1,String pq,String pe)async{
-    db =  await checkDatabase();
-    db!.insert("product", {"productname":n1,"quantity":q1,"price":p1,"purchasedate":pq,"pendingdate":pe});
-  }
-
-  void ProtwoinsertData(String n1,String q1 ,String p1,String pq,)async{
-    db =  await checkDatabase();
-    db!.insert("product", {"productname":n1,"quantity":q1,"price":p1,"purchasedate":pq,});
-  }
-
-  Future<List<Map>> ProreadData()async{
+  Future<List<Map>> ProreadData(String id)async{
     db= await checkDatabase();
-    String query = "SELECT * FROM product";
-    List<Map> CilentList = await db!.rawQuery(query,null);
-    return CilentList;
+    String query = "SELECT * FROM product where client_id = $id";
+    List<Map> ProductList = await db!.rawQuery(query,null);
+    return ProductList;
+  }
+  void ProinsertData(String n1,String q1 ,String p1,String pq,int clientId,int status)async{
+    db =  await checkDatabase();
+    db!.insert("product", {"product_name":n1,"quantity":q1,"price":p1,"purchase_date":pq,"client_id":clientId,"payment_status":status});
   }
 
   void Prodeletedata(String id)async{
@@ -76,9 +67,9 @@ class DbHelper{
     db!.delete("product",where: "id = ?",whereArgs: [int.parse(id)]);
   }
 
-  void Proupdatedata(String id,String n1, String q1,String p1,String pq,String pe)async{
+  void Proupdatedata(String id,String n1, String q1,String p1,String pq,int clientId,int status)async{
     db= await checkDatabase();
-    db!.update("product", {"productname":n1,"quantity":q1,"price":p1,"purchasedate":pq,"pendingdate":pe},where:"id = ?",whereArgs: [int.parse(id)]);
+    db!.update("product", {"product_name":n1,"quantity":q1,"price":p1,"purchase_date":pq,"client_id":clientId,"payment_status":status},where:"id = ?",whereArgs: [int.parse(id)]);
   }
 
 }

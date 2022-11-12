@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:khatabook/controller/product_conttroller.dart';
 
 import '../controller/cilent_controller.dart';
 import '../controller/dbhelpre_cilent.dart';
@@ -15,13 +16,13 @@ class paymetRemaind_Screen extends StatefulWidget {
 class _paymetRemaind_ScreenState extends State<paymetRemaind_Screen> {
 
 
+  Product_Controller product_controller = Get.put(Product_Controller());
   Cilent_Controller cilent_controller = Get.put(Cilent_Controller());
 
   TextEditingController txtproductname  =TextEditingController();
   TextEditingController txtquantity     =TextEditingController();
   TextEditingController txtprice        =TextEditingController();
   TextEditingController txtpurchasedate =TextEditingController();
-  TextEditingController txtpendingdate  =TextEditingController();
 
   @override
   void initState() {
@@ -31,7 +32,7 @@ class _paymetRemaind_ScreenState extends State<paymetRemaind_Screen> {
 
   void getDataPro()async{
     DbHelper pdb = DbHelper();
-    cilent_controller.CilentList.value = await pdb.ProreadData();
+    product_controller.ProductList.value = await pdb.readData();
   }
 
   var txtkey = GlobalKey<FormState>();
@@ -56,8 +57,8 @@ class _paymetRemaind_ScreenState extends State<paymetRemaind_Screen> {
                   txtquantity.clear();
                   txtprice.clear();
                   txtpurchasedate.clear();
-                  txtpendingdate.clear();
-                }, icon: Icon(Icons.refresh)),
+                  },
+                    icon: Icon(Icons.refresh)),
               ],
             ),
           body: SingleChildScrollView(
@@ -69,6 +70,7 @@ class _paymetRemaind_ScreenState extends State<paymetRemaind_Screen> {
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: TextField(
+                    textInputAction: TextInputAction.next,
                     controller: txtproductname,
                     decoration: InputDecoration(
                         prefixIcon: Icon(Icons.person),
@@ -88,13 +90,15 @@ class _paymetRemaind_ScreenState extends State<paymetRemaind_Screen> {
                     validator: (value){
                       if(value!.isEmpty)
                       {
-                        return 'Emter Amout';
+                        return 'Enter Amout';
                       }
                       else{
                         return null;
                       }
                     },
+
                     controller: txtprice,
+                    textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
                         prefixIcon: Icon(Icons.currency_rupee),
                         label: Text("Amout"),
@@ -107,9 +111,12 @@ class _paymetRemaind_ScreenState extends State<paymetRemaind_Screen> {
                     ),
                   ),
                 ),
+                Text("* Required",style: TextStyle(color: Colors.red),),
+                SizedBox(height: 10,),
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: TextField(
+                    textInputAction: TextInputAction.next,
                     controller: txtquantity,
                     decoration: InputDecoration(
                         prefixIcon: Icon(Icons.queue_rounded),
@@ -126,6 +133,7 @@ class _paymetRemaind_ScreenState extends State<paymetRemaind_Screen> {
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: TextField(
+                    textInputAction: TextInputAction.next,
                     controller: txtpurchasedate,
                     decoration: InputDecoration(
                         prefixIcon: Icon(Icons.date_range),
@@ -139,22 +147,7 @@ class _paymetRemaind_ScreenState extends State<paymetRemaind_Screen> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: TextField(
-                    controller: txtpendingdate,
-                    decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.date_range),
-                        label: Text("Pendingdate"),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 2),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 2,color: Colors.blue),
-                        )
-                    ),
-                  ),
-                ),
+
 
                 SizedBox(height: 10,),
 
@@ -164,7 +157,7 @@ class _paymetRemaind_ScreenState extends State<paymetRemaind_Screen> {
                     Get.to(Detile_Screen());
                   }
                   DbHelper PDB = DbHelper();
-                  PDB.ProinsertData(txtproductname.text,txtquantity.text,txtprice.text,txtpurchasedate.text,txtpendingdate.text);
+                  PDB.ProinsertData(txtproductname.text,txtquantity.text,txtprice.text,txtpurchasedate.text,int.parse(cilent_controller.Datapick!.id!),0);
                   getDataPro();
                   // Get.back();
                 }, child: Text("SAVE"),style: ElevatedButton.styleFrom(primary: Colors.blue.shade700),),

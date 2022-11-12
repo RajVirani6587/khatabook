@@ -16,9 +16,6 @@ class First_Screen extends StatefulWidget {
 class _First_ScreenState extends State<First_Screen> {
 
   Cilent_Controller cilent_controller = Get.put(Cilent_Controller());
-  TextEditingController txtname =TextEditingController();
-  TextEditingController txtmoblie =TextEditingController();
-  TextEditingController txtaddress =TextEditingController();
 
   TextEditingController utxtaddress =TextEditingController();
   TextEditingController utxtname =TextEditingController();
@@ -121,6 +118,7 @@ class _First_ScreenState extends State<First_Screen> {
                       name: cilent_controller.CilentList.value[index]['name'],
                       address: cilent_controller.CilentList.value[index]['address'],
                       mobile: cilent_controller.CilentList.value[index]['mobile'],
+                      id:cilent_controller.CilentList.value[index]['id'].toString(),
                     );
                     Get.to(Detile_Screen());
                   },
@@ -148,7 +146,7 @@ class _First_ScreenState extends State<First_Screen> {
                                     TextField(
                                       controller: utxtname,decoration: InputDecoration(hintText: "Name",),),
                                     TextField(
-                                      controller: utxtmoblie,decoration: InputDecoration(hintText: "Moblie",),),
+                                      controller: utxtmoblie,decoration: InputDecoration(hintText: "Moblie", prefixText: "+91 ",),),
                                     TextField(
                                       controller: utxtaddress,decoration: InputDecoration(hintText: "address",),),
                                     SizedBox(height: 10,),

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../controller/cilent_controller.dart';
 import '../controller/dbhelpre_cilent.dart';
+import '../controller/product_conttroller.dart';
 
 class PaymetDone_Screen extends StatefulWidget {
   const PaymetDone_Screen({Key? key}) : super(key: key);
@@ -13,6 +14,7 @@ class PaymetDone_Screen extends StatefulWidget {
 
 class _PaymetDone_ScreenState extends State<PaymetDone_Screen> {
 
+  Product_Controller product_controller = Get.put(Product_Controller());
   Cilent_Controller cilent_controller = Get.put(Cilent_Controller());
 
   TextEditingController txtproductname  =TextEditingController();
@@ -28,7 +30,7 @@ class _PaymetDone_ScreenState extends State<PaymetDone_Screen> {
 
   void getDataPro()async{
     DbHelper pdb = DbHelper();
-    cilent_controller.CilentList.value = await pdb.ProreadData();
+    cilent_controller.CilentList.value = await pdb.readData();
   }
   @override
   Widget build(BuildContext context) {
@@ -126,7 +128,7 @@ class _PaymetDone_ScreenState extends State<PaymetDone_Screen> {
 
               ElevatedButton(onPressed: (){
                 DbHelper PDB = DbHelper();
-                PDB.ProtwoinsertData(txtproductname.text,txtquantity.text,txtprice.text,txtpurchasedate.text);
+                PDB.ProinsertData(txtproductname.text,txtquantity.text,txtprice.text,txtpurchasedate.text,int.parse(cilent_controller.Datapick!.id!),1);
                 getDataPro();
                 Get.back();
               }, child: Text("SAVE"),style: ElevatedButton.styleFrom(primary: Colors.blue.shade700),),
