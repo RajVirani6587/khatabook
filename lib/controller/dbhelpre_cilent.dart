@@ -22,7 +22,7 @@ class DbHelper{
     String  path =  join(folder.path,"rnw.db");
     return  openDatabase(path,version:1,onCreate:(db,version){
       String query = "CREATE TABLE cilent(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT,mobile TEXT,address TEXT)";
-      String proquery = "CREATE TABLE product(id INTEGER PRIMARY KEY AUTOINCREMENT,productname TEXT,quantity TEXT,price TEXT,purchasedate TEXT,client_id INTEGER,payment_status INTEGER)";
+      String proquery = "CREATE TABLE product(id INTEGER PRIMARY KEY AUTOINCREMENT,product_name TEXT,quantity TEXT,price TEXT,purchase_date TEXT,client_id INTEGER,payment_status INTEGER)";
       db.execute(query);
       db.execute(proquery);
     });

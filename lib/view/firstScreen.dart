@@ -109,8 +109,8 @@ class _First_ScreenState extends State<First_Screen> {
               ),
             ),
             SizedBox(height: 10,),
-            Obx(() => Expanded(
-              child: ListView.builder(
+            Expanded(
+              child: Obx(() => ListView.builder(
                 itemCount:cilent_controller.CilentList.value.length,
                 itemBuilder: (Context,index){
                   return InkWell(onTap: (){
@@ -171,8 +171,8 @@ class _First_ScreenState extends State<First_Screen> {
                     ),
                   );
                 },
-              ),
-            )),
+              )),
+            ),
 
           ],
         ),

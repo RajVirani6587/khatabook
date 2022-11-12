@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:khatabook/controller/cilent_controller.dart';
+import 'package:khatabook/controller/product_conttroller.dart';
 import 'package:khatabook/view/paymetRemaind_Screen.dart';
 import 'package:khatabook/view/paynetdone_screen.dart';
+
+import '../controller/dbhelpre_cilent.dart';
 
 class Detile_Screen extends StatefulWidget {
   const Detile_Screen({Key? key}) : super(key: key);
@@ -13,6 +16,19 @@ class Detile_Screen extends StatefulWidget {
 
 class _Detile_ScreenState extends State<Detile_Screen> {
   Cilent_Controller cilent_controller = Get.put(Cilent_Controller());
+  Product_Controller product_controller = Get.put(Product_Controller());
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  void getData()async{
+    DbHelper db = DbHelper();
+    cilent_controller.CilentList.value = await db.readData();
+    product_controller.ProductList.value = await db.ProreadData(cilent_controller.Datapick!.id!);
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -114,7 +130,7 @@ class _Detile_ScreenState extends State<Detile_Screen> {
                             children: [
                                Padding(
                                  padding: EdgeInsets.only(left: 10),
-                                 child: Text("Date/Time"),
+                                 child: Text("Date/Quantity"),
                                ),
                                Padding(
                                  padding: const EdgeInsets.only(right: 5),
@@ -141,59 +157,61 @@ class _Detile_ScreenState extends State<Detile_Screen> {
                       ],
                     ),
                   ),
-                  ListView.builder(
-                    itemCount:.length,
-                    itemBuilder: (context,index){return },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        color: Colors.black12,
-                        height: 60,
-                        width: MediaQuery.of(context).size.width*0.99,
-                        child: Row(
-                          children: [
-                            Container(
-                              height: 60,
-                              width: MediaQuery.of(context).size.width*0.55,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  Expanded(
+                    child: Obx(()=>
+                      ListView.builder(
+                        itemCount:product_controller.ProductList.length,
+                        itemBuilder: (context,index){
+                          return   Padding(
+                           padding: const EdgeInsets.all(8.0),
+                           child: Container(
+                            color: Colors.black12,
+                            height: 60,
+                            width: MediaQuery.of(context).size.width*0.99,
+                            child: Row(
+                              children: [
+                                Container(
+                                  height: 60,
+                                  width: MediaQuery.of(context).size.width*0.55,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text("9-11-2022"),
-                                      Text("6",)
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Text("${product_controller.ProductList[index]['purchase_date']}"),
+                                          Text("${product_controller.ProductList[index]['quantity']}",)
+                                        ],
+                                      ),
+                                      Text("${product_controller.ProductList[index]['product_name']}"),
                                     ],
                                   ),
-                                  Text("suger"),
-                                ],
-                              ),
+                                ),
+                                SizedBox(width: 10,),
+                                Container(
+                                  height: 60,
+                                  width:MediaQuery.of(context).size.width*0.19,
+                                  color: Colors.red.shade200,
+                                  child: Center(
+                                    child: Text("${product_controller.ProductList[index]['price']}",style: TextStyle(color: Colors.red),),
+                                  ),
+                                ),
+                                Container(
+                                  height: 60,
+                                  width:MediaQuery.of(context).size.width*0.19,
+                                  color: Colors.greenAccent,
+                                  child: Center(
+                                    child: Text("${product_controller.ProductList[index]['price']}",style: TextStyle(color: Colors.green),),
+                                  ),
+                                ),
+                              ],
                             ),
-                            SizedBox(width: 10,),
-
-                            Container(
-                              height: 60,
-                              width:MediaQuery.of(context).size.width*0.19,
-                              color: Colors.red.shade200,
-                              child: Center(
-                                child: Text("₹ 909",style: TextStyle(color: Colors.red),),
-                              ),
-                            ),
-                            Container(
-                              height: 60,
-                              width:MediaQuery.of(context).size.width*0.19,
-                              color: Colors.greenAccent,
-                              child: Center(
-                                child: Text("₹ 10100",style: TextStyle(color: Colors.green),),
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        );
+                          },
                       ),
                     ),
                   ),
-
-
                 ],
               ),
               Padding(
@@ -202,13 +220,13 @@ class _Detile_ScreenState extends State<Detile_Screen> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     ElevatedButton(onPressed: (){
-                      Get.to(paymetRemaind_Screen(),);
+                      Get.off(paymetRemaind_Screen(),);
                       },
                       child:Text("Paymet Remaind ₹",
                         style: TextStyle(color: Colors.white,fontSize: 16),),
                           style: ElevatedButton.styleFrom(primary: Colors.red,minimumSize: Size(MediaQuery.of(context).size.width*0.4,MediaQuery.of(context).size.width*0.13)),),
                     ElevatedButton(onPressed: (){
-                      Get.to(PaymetDone_Screen());
+                      Get.off(PaymetDone_Screen());
                     },
                       child:Text("Paymet Done  ₹",
                         style: TextStyle(color: Colors.white,fontSize: 16),),

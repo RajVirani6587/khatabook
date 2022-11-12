@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:khatabook/view/detile_screen.dart';
 
 import '../controller/cilent_controller.dart';
 import '../controller/dbhelpre_cilent.dart';
@@ -25,10 +26,10 @@ class _PaymetDone_ScreenState extends State<PaymetDone_Screen> {
   @override
   void initState() {
     super.initState();
-    getDataPro();
+    getData();
   }
 
-  void getDataPro()async{
+  void getData()async{
     DbHelper pdb = DbHelper();
     cilent_controller.CilentList.value = await pdb.readData();
   }
@@ -37,9 +38,10 @@ class _PaymetDone_ScreenState extends State<PaymetDone_Screen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+
           backgroundColor: Colors.blue.shade700,
           leading: IconButton(onPressed: (){
-            Get.back();
+            Get.off(Detile_Screen());
           }, icon:Icon(Icons.arrow_back)),
           centerTitle: false,
           title: Text("Add Payment"),
@@ -52,90 +54,100 @@ class _PaymetDone_ScreenState extends State<PaymetDone_Screen> {
             }, icon: Icon(Icons.refresh)),
           ],
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 30,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: TextField(
-                  controller: txtproductname,
-                  decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.person),
-                      label: Text("Customer Product"),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(width: 2),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(width: 2,color: Colors.blue),
-                      )
+        body: WillPopScope(onWillPop: dialog,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 30,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: TextField(
+                    controller: txtproductname,
+                    decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.person),
+                        label: Text("Customer Product"),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 2),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 2,color: Colors.blue),
+                        )
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: TextField(
-                  controller: txtprice,
-                  decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.currency_rupee),
-                      label: Text("Amout"),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(width: 2),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(width: 2,color: Colors.blue),
-                      )
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: TextField(
+                    controller: txtprice,
+                    decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.currency_rupee),
+                        label: Text("Amout"),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 2),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 2,color: Colors.blue),
+                        )
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: TextField(
-                  controller: txtquantity,
-                  decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.queue_rounded),
-                      label: Text("Quantity"),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(width: 2),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(width: 2,color: Colors.blue),
-                      )
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: TextField(
+                    controller: txtquantity,
+                    decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.queue_rounded),
+                        label: Text("Quantity"),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 2),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 2,color: Colors.blue),
+                        )
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: TextField(
-                  controller: txtpurchasedate,
-                  decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.date_range),
-                      label: Text("Purchase Date"),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(width: 2),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(width: 2,color: Colors.blue),
-                      )
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: TextField(
+                    controller: txtpurchasedate,
+                    decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.date_range),
+                        label: Text("Purchase Date"),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 2),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 2,color: Colors.blue),
+                        )
+                    ),
                   ),
                 ),
-              ),
 
-              SizedBox(height: 10,),
+                SizedBox(height: 10,),
 
 
-              ElevatedButton(onPressed: (){
-                DbHelper PDB = DbHelper();
-                PDB.ProinsertData(txtproductname.text,txtquantity.text,txtprice.text,txtpurchasedate.text,int.parse(cilent_controller.Datapick!.id!),1);
-                getDataPro();
-                Get.back();
-              }, child: Text("SAVE"),style: ElevatedButton.styleFrom(primary: Colors.blue.shade700),),
-            ],
+                ElevatedButton(onPressed: (){
+                  DbHelper pdb = DbHelper();
+                  pdb.ProinsertData(txtproductname.text,txtquantity.text,txtprice.text,txtpurchasedate.text,int.parse(cilent_controller.Datapick!.id!),1);
+                  getData();
+                  Get.off(Detile_Screen());
+                }, child: Text("SAVE"),style: ElevatedButton.styleFrom(primary: Colors.blue.shade700),),
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+  Future<bool> dialog() async {
+    back();
+    return await false;
+  }
+
+  void back(){
+    Get.off(Detile_Screen());
   }
 }
