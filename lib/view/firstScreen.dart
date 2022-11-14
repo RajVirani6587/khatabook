@@ -136,6 +136,7 @@ class _First_ScreenState extends State<First_Screen> {
                           subtitle: Text("${cilent_controller.CilentList.value[index]['mobile']}",),
                           trailing: PopupMenuButton(itemBuilder: (context) => [
                             PopupMenuItem(child: InkWell(onTap: (){
+
                               utxtname =TextEditingController(text: "${cilent_controller.CilentList.value[index]['name']}");
                               utxtmoblie =TextEditingController(text: "${cilent_controller.CilentList.value[index]['mobile']}");
                               utxtaddress =TextEditingController(text: "${cilent_controller.CilentList.value[index]['address']}");

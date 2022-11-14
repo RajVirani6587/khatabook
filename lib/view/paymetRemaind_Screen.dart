@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:khatabook/controller/product_conttroller.dart';
 
 import '../controller/cilent_controller.dart';
@@ -14,6 +15,8 @@ class paymetRemaind_Screen extends StatefulWidget {
 }
 
 class _paymetRemaind_ScreenState extends State<paymetRemaind_Screen> {
+
+
   Product_Controller product_controller = Get.put(Product_Controller());
   Cilent_Controller cilent_controller = Get.put(Cilent_Controller());
 
@@ -21,6 +24,8 @@ class _paymetRemaind_ScreenState extends State<paymetRemaind_Screen> {
   TextEditingController txtquantity = TextEditingController();
   TextEditingController txtprice = TextEditingController();
   TextEditingController txtpurchasedate = TextEditingController();
+
+
 
   @override
   void initState() {
@@ -71,43 +76,35 @@ class _paymetRemaind_ScreenState extends State<paymetRemaind_Screen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: TextField(
-                      textInputAction: TextInputAction.next,
-                      controller: txtproductname,
-                      decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.person),
-                          label: Text("Customer Product"),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(width: 2),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 2, color: Colors.blue),
-                          )),
+                    child: Card(
+                      child: TextField(
+                        textInputAction: TextInputAction.next,
+                        controller: txtproductname,
+                        decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.person),
+                            label: Text("Customer Product"),
+                           ),
+                      ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: TextFormField(
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Enter Amout';
-                        } else {
-                          return null;
-                        }
-                      },
-                      controller: txtprice,
-                      textInputAction: TextInputAction.next,
-                      decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.currency_rupee),
-                          label: Text("Amout"),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(width: 2),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 2, color: Colors.blue),
-                          )),
+                    child: Card(
+                      child: TextFormField(
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Enter Amout';
+                          } else {
+                            return null;
+                          }
+                        },
+                        controller: txtprice,
+                        textInputAction: TextInputAction.next,
+                        decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.currency_rupee),
+                            label: Text("Amout"),
+                         ),
+                      ),
                     ),
                   ),
                   Padding(
@@ -126,43 +123,46 @@ class _paymetRemaind_ScreenState extends State<paymetRemaind_Screen> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: TextField(
-                      textInputAction: TextInputAction.next,
-                      controller: txtquantity,
-                      decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.queue_rounded),
-                          label: Text("Quantity"),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(width: 2),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 2, color: Colors.blue),
-                          )),
+                    padding:  EdgeInsets.all(15.0),
+                    child: Card(
+                      child: TextField(
+                        textInputAction: TextInputAction.next,
+                        controller: txtquantity,
+                        decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.queue_rounded),
+                            label: Text("Quantity"),
+                        ),
+                      ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: TextField(
-                      textInputAction: TextInputAction.next,
-                      controller: txtpurchasedate,
-                      decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.date_range),
+                    child: Card(
+                      child: TextField(
+                        readOnly: true,
+                        onTap: () {
+                          datepick();
+                        },
+                        controller: txtpurchasedate,
+                        cursorColor: Color(0xff000000),
+                        style: TextStyle(color: Color(0xff000000)),
+                        decoration: InputDecoration(
                           label: Text("Purchasedate"),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(width: 2),
+                          prefixIcon: Icon(
+                            Icons.date_range_sharp,
+                            color: Color(0xff919191),
                           ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 2, color: Colors.blue),
-                          )),
+                          focusColor: Color(0xff000000),
+                          fillColor: Color(0xff000000),
+                          hintStyle: TextStyle(color: Color(0xff919191)),
+                        ),
+                      ),
                     ),
                   ),
                   SizedBox(
                     height: 10,
                   ),
-                  ElevatedButton(
+                  TextButton(
                     onPressed: () {
                       if (txtkey.currentState!.validate() == true) {
                         Get.off(Detile_Screen());
@@ -177,7 +177,7 @@ class _paymetRemaind_ScreenState extends State<paymetRemaind_Screen> {
                           0);
                       getData();
                     },
-                    child: Text("SAVE"),
+                    child: Text("SAVE",style: TextStyle(color: Colors.white),),
                     style:
                         ElevatedButton.styleFrom(primary: Colors.blue.shade700),
                   ),
@@ -197,5 +197,28 @@ class _paymetRemaind_ScreenState extends State<paymetRemaind_Screen> {
 
   void back(){
     Get.off(Detile_Screen());
+  }
+
+
+  void datepick() async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      //get today's date
+      firstDate: DateTime(2020),
+      //DateTime.now() - not to allow to choose before today.
+      lastDate: DateTime(2999),
+    );
+    if(pickedDate != null ){
+      String formattedDate = DateFormat('dd-MM-yyyy').format(pickedDate);
+
+      setState(() {
+
+        txtpurchasedate = TextEditingController(text: "$formattedDate");
+      });
+    }else{
+      print("Date is not selected");
+    }
+
   }
 }

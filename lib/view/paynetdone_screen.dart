@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:khatabook/view/detile_screen.dart';
 
 import '../controller/cilent_controller.dart';
@@ -112,16 +113,14 @@ class _PaymetDone_ScreenState extends State<PaymetDone_Screen> {
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: TextField(
+                    readOnly: true,
+                    onTap: () {
+                      datepick();
+                    },
                     controller: txtpurchasedate,
                     decoration: InputDecoration(
                         prefixIcon: Icon(Icons.date_range),
                         label: Text("Purchase Date"),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 2),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 2,color: Colors.blue),
-                        )
                     ),
                   ),
                 ),
@@ -149,5 +148,28 @@ class _PaymetDone_ScreenState extends State<PaymetDone_Screen> {
 
   void back(){
     Get.off(Detile_Screen());
+  }
+
+
+  void datepick() async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      //get today's date
+      firstDate: DateTime(2020),
+      //DateTime.now() - not to allow to choose before today.
+      lastDate: DateTime(2999),
+    );
+    if(pickedDate != null ){
+      String formattedDate = DateFormat('dd-MM-yyyy').format(pickedDate);
+
+      setState(() {
+
+        txtpurchasedate = TextEditingController(text: "$formattedDate");
+      });
+    }else{
+      print("Date is not selected");
+    }
+
   }
 }
