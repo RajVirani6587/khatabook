@@ -64,63 +64,54 @@ class _PaymetDone_ScreenState extends State<PaymetDone_Screen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(15.0),
-                  child: TextField(
-                    controller: txtproductname,
-                    decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.person),
-                        label: Text("Customer Product"),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 2),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 2,color: Colors.blue),
-                        )
+                  child: Card(
+                    child: TextField(
+                      controller: txtproductname,
+                      decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.person),
+                          label: Text("Customer Product"),
+                      ),
                     ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(15.0),
-                  child: TextField(
-                    controller: txtprice,
-                    decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.currency_rupee),
-                        label: Text("Amout"),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 2),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 2,color: Colors.blue),
-                        )
+                  child: Card(
+                    child: TextField(
+                      controller: txtprice,
+                      decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.currency_rupee),
+                          label: Text("Amout"),
+                      ),
                     ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(15.0),
-                  child: TextField(
-                    controller: txtquantity,
-                    decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.queue_rounded),
-                        label: Text("Quantity"),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 2),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 2,color: Colors.blue),
-                        )
+                  child: Card(
+                    child: TextField(
+                      controller: txtquantity,
+                      decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.queue_rounded),
+                          label: Text("Quantity"),
+
+                      ),
                     ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(15.0),
-                  child: TextField(
-                    readOnly: true,
-                    onTap: () {
-                      datepick();
-                    },
-                    controller: txtpurchasedate,
-                    decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.date_range),
-                        label: Text("Purchase Date"),
+                  child: Card(
+                    child: TextField(
+                      readOnly: true,
+                      onTap: () {
+                        datepick();
+                      },
+                      controller: txtpurchasedate,
+                      decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.date_range),
+                          label: Text("Purchase Date"),
+                      ),
                     ),
                   ),
                 ),
