@@ -176,10 +176,10 @@ class _Detile_ScreenState extends State<Detile_Screen> {
                          onTap: (){
 
 
-                           utxtproductname  =TextEditingController(text: "${cilent_controller.CilentList.value[index]['product_name']}");
-                           utxtquantity     =TextEditingController(text: "${cilent_controller.CilentList.value[index]['quantity']}");
-                           utxtprice        =TextEditingController(text: "${cilent_controller.CilentList.value[index]['price']}");
-                           utxtpurchasedate =TextEditingController(text: "${cilent_controller.CilentList.value[index]['purchase_date']}");
+                           utxtproductname  =TextEditingController(text: "${product_controller.ProductList.value[index]['product_name']}");
+                           utxtquantity     =TextEditingController(text: "${product_controller.ProductList.value[index]['quantity']}");
+                           utxtprice        =TextEditingController(text: "${product_controller.ProductList.value[index]['price']}");
+                           utxtpurchasedate =TextEditingController(text: "${product_controller.ProductList.value[index]['purchase_date']}");
 
                            Get.defaultDialog(
                              title: "UpDate/Delete",
@@ -200,7 +200,7 @@ class _Detile_ScreenState extends State<Detile_Screen> {
                                        Expanded(
                                          child: RadioListTile(value: "Done",groupValue:product_controller.utxtRadio.value,onChanged: (value){
                                           product_controller.utxtRadio.value = value as String;
-                                         },title: Text("Done",style: TextStyle(fontSize: 15)),),
+                                         },title: Text("Done",style: TextStyle(fontSize: 12)),),
                                        ),
 
                                        Expanded(
@@ -217,16 +217,20 @@ class _Detile_ScreenState extends State<Detile_Screen> {
                                    children: [
                                      ElevatedButton(onPressed: (){
                                        DbHelper dp = DbHelper();
-                                       //dp.Proupdatedata("${product_controller.ProductList.value[index]['id']}", utxtproductname.text, utxtquantity.text, utxtprice.text, utxtpurchasedate.text, int.parse(cilent_controller.Datapick!.id!), status)
+
+                                       dp.Proupdatedata(product_controller.ProductList.value[index]['id'].toString(), utxtproductname.text, utxtquantity.text, utxtprice.text, utxtpurchasedate.text, int.parse(cilent_controller.Datapick!.id!),product_controller.utxtRadio.value=="Done"?1:0);
                                        getData();
-                                     },child:Text("update")),
+                                     },
+                                         child:Text("update")),
                                      ElevatedButton(
                                          style: ElevatedButton.styleFrom(primary: Colors.red),
-                                       onPressed: (){
-                                       DbHelper dp = DbHelper();
-                                       dp.Prodeletedata("${product_controller.ProductList.value[index]['id']}");
-                                       getData();
-                                     }, child: Text("Delete")),
+                                        onPressed: (){
+                                        DbHelper dp = DbHelper();
+                                        dp.Prodeletedata("${product_controller.ProductList.value[index]['id']}");
+                                        getData();
+                                        Get.back();
+                                     },
+                                         child: Text("Delete")),
                                    ],
                                  ),
                                ],
