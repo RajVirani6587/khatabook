@@ -37,6 +37,8 @@ class _paymetRemaind_ScreenState extends State<paymetRemaind_Screen> {
   void getData() async {
     DbHelper db = DbHelper();
     product_controller.ProductList.value = await db.readData();
+    product_controller.addition();
+    product_controller.topaddition();
   }
 
   var txtkey = GlobalKey<FormState>();
@@ -181,8 +183,7 @@ class _paymetRemaind_ScreenState extends State<paymetRemaind_Screen> {
                           int.parse(cilent_controller.Datapick!.id!),
                           0);
                       getData();
-                      product_controller.addition();
-                      product_controller.topaddition();
+
                     },
                     child: Text("SAVE",style: TextStyle(color: Colors.white),),
                     style: ElevatedButton.styleFrom(primary: Colors.blue.shade700),

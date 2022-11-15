@@ -35,6 +35,8 @@ class _PaymetDone_ScreenState extends State<PaymetDone_Screen> {
   void getData()async{
     DbHelper pdb = DbHelper();
     cilent_controller.CilentList.value = await pdb.readData();
+    product_controller.addition();
+    product_controller.topaddition();
   }
   @override
   Widget build(BuildContext context) {
@@ -147,8 +149,7 @@ class _PaymetDone_ScreenState extends State<PaymetDone_Screen> {
                           int.parse(cilent_controller.Datapick!.id!),
                           1);
                       getData();
-                      product_controller.addition();
-                      product_controller.topaddition();
+
                     },
                     child: Text("SAVE",style: TextStyle(color: Colors.white),),
                     style: ElevatedButton.styleFrom(primary: Colors.blue.shade700),

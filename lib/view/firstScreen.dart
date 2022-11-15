@@ -33,7 +33,7 @@ class _First_ScreenState extends State<First_Screen> {
   void getData()async{
     DbHelper db = DbHelper();
     cilent_controller.CilentList.value = await db.readData();
-    product_controller.ProductList.value = await db.ProreadData(cilent_controller.Datapick!.id);
+    product_controller.ProductList.value = await db.ProreadData();
     product_controller.addition();
     product_controller.topaddition();
 

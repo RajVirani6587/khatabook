@@ -31,16 +31,19 @@ class Product_Controller extends GetxController{
 
   void topaddition() async{
     DbHelper db = DbHelper();
-    ProductList2.value = await db.ProreadData(cilent_controller.Datapick!.id);
+    ProductList2.value = await db.ProreadData();
 
     int v = 0;
+
     mainpandingSum.value=0;
     maindoneSum.value=0;
 
     for(v=0;v<ProductList2.length;v++){
+
       ProductList2[v]['payment_status'] == 1?
       maindoneSum.value =  int.parse(ProductList2[v]['price']) + maindoneSum.value :
       mainpandingSum.value =  int.parse(ProductList2[v]['price']) + mainpandingSum.value;
+
         }
       }
 
