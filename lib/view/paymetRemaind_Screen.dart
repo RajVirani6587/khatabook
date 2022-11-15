@@ -92,6 +92,7 @@ class _paymetRemaind_ScreenState extends State<paymetRemaind_Screen> {
                     padding: const EdgeInsets.all(15.0),
                     child: Card(
                       child: TextFormField(
+                        keyboardType: TextInputType.numberWithOptions(),
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Enter Amout';
@@ -127,6 +128,7 @@ class _paymetRemaind_ScreenState extends State<paymetRemaind_Screen> {
                     padding:  EdgeInsets.all(15.0),
                     child: Card(
                       child: TextField(
+                        keyboardType: TextInputType.numberWithOptions(),
                         textInputAction: TextInputAction.next,
                         controller: txtquantity,
                         decoration: InputDecoration(
@@ -140,6 +142,7 @@ class _paymetRemaind_ScreenState extends State<paymetRemaind_Screen> {
                     padding: const EdgeInsets.all(15.0),
                     child: Card(
                       child: TextField(
+                        keyboardType: TextInputType.numberWithOptions(),
                         readOnly: true,
                         onTap: () {
                           datepick();
@@ -169,6 +172,7 @@ class _paymetRemaind_ScreenState extends State<paymetRemaind_Screen> {
                         Get.off(Detile_Screen());
                       }
                       DbHelper pdb = DbHelper();
+
                       pdb.ProinsertData(
                           txtproductname.text,
                           txtquantity.text,
@@ -177,10 +181,11 @@ class _paymetRemaind_ScreenState extends State<paymetRemaind_Screen> {
                           int.parse(cilent_controller.Datapick!.id!),
                           0);
                       getData();
+                      product_controller.addition();
+                      product_controller.topaddition();
                     },
                     child: Text("SAVE",style: TextStyle(color: Colors.white),),
-                    style:
-                        ElevatedButton.styleFrom(primary: Colors.blue.shade700),
+                    style: ElevatedButton.styleFrom(primary: Colors.blue.shade700),
                   ),
                 ],
               ),

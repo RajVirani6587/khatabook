@@ -24,6 +24,8 @@ class _PaymetDone_ScreenState extends State<PaymetDone_Screen> {
   TextEditingController txtprice        =TextEditingController();
   TextEditingController txtpurchasedate =TextEditingController();
 
+  var txtkey = GlobalKey<FormState>();
+
   @override
   void initState() {
     super.initState();
@@ -36,96 +38,124 @@ class _PaymetDone_ScreenState extends State<PaymetDone_Screen> {
   }
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
+    return Form(
+      key: txtkey,
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
 
-          backgroundColor: Colors.blue.shade700,
-          leading: IconButton(onPressed: (){
-            Get.off(Detile_Screen());
-          }, icon:Icon(Icons.arrow_back)),
-          centerTitle: false,
-          title: Text("Add Payment"),
-          actions: [
-            IconButton(onPressed: (){
-              txtproductname.clear();
-              txtquantity.clear();
-              txtprice.clear();
-              txtpurchasedate.clear();
-            }, icon: Icon(Icons.refresh)),
-          ],
-        ),
-        body: WillPopScope(onWillPop: dialog,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 30,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Card(
-                    child: TextField(
-                      controller: txtproductname,
-                      decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.person),
-                          label: Text("Customer Product"),
+            backgroundColor: Colors.blue.shade700,
+            leading: IconButton(onPressed: (){
+              Get.off(Detile_Screen());
+            }, icon:Icon(Icons.arrow_back)),
+            centerTitle: false,
+            title: Text("Add Payment"),
+            actions: [
+              IconButton(onPressed: (){
+                txtproductname.clear();
+                txtquantity.clear();
+                txtprice.clear();
+                txtpurchasedate.clear();
+              }, icon: Icon(Icons.refresh)),
+            ],
+          ),
+          body: WillPopScope(onWillPop: dialog,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Card(
+                      child: TextField(
+                        controller: txtproductname,
+                        decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.person),
+                            label: Text("Customer Product"),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Card(
-                    child: TextField(
-                      controller: txtprice,
-                      decoration: InputDecoration(
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Card(
+                      child: TextFormField(
+                        keyboardType: TextInputType.numberWithOptions(),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Enter Amout';
+                          } else {
+                            return null;
+                          }
+                        },
+                        controller: txtprice,
+                        textInputAction: TextInputAction.next,
+                        decoration: InputDecoration(
                           prefixIcon: Icon(Icons.currency_rupee),
                           label: Text("Amout"),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Card(
-                    child: TextField(
-                      controller: txtquantity,
-                      decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.queue_rounded),
-                          label: Text("Quantity"),
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Card(
+                      child: TextField(
+                        keyboardType: TextInputType.numberWithOptions(),
+                        controller: txtquantity,
+                        decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.queue_rounded),
+                            label: Text("Quantity"),
 
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Card(
-                    child: TextField(
-                      readOnly: true,
-                      onTap: () {
-                        datepick();
-                      },
-                      controller: txtpurchasedate,
-                      decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.date_range),
-                          label: Text("Purchase Date"),
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Card(
+                      child: TextField(
+                        keyboardType: TextInputType.numberWithOptions(),
+                        readOnly: true,
+                        onTap: () {
+                          datepick();
+                        },
+                        controller: txtpurchasedate,
+                        decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.date_range),
+                            label: Text("Purchase Date"),
+                        ),
                       ),
                     ),
                   ),
-                ),
 
-                SizedBox(height: 10,),
+                  SizedBox(height: 10,),
+                  TextButton(
+                    onPressed: () {
+                      if (txtkey.currentState!.validate() == true) {
+                        Get.off(Detile_Screen());
+                      }
+                      DbHelper pdb = DbHelper();
 
+                      pdb.ProinsertData(
+                          txtproductname.text,
+                          txtquantity.text,
+                          txtprice.text,
+                          txtpurchasedate.text,
+                          int.parse(cilent_controller.Datapick!.id!),
+                          1);
+                      getData();
+                      product_controller.addition();
+                      product_controller.topaddition();
+                    },
+                    child: Text("SAVE",style: TextStyle(color: Colors.white),),
+                    style: ElevatedButton.styleFrom(primary: Colors.blue.shade700),
+                  ),
 
-                ElevatedButton(onPressed: (){
-                  DbHelper pdb = DbHelper();
-                  pdb.ProinsertData(txtproductname.text,txtquantity.text,txtprice.text,txtpurchasedate.text,int.parse(cilent_controller.Datapick!.id!),1);
-                  getData();
-                  Get.off(Detile_Screen());
-                }, child: Text("SAVE"),style: ElevatedButton.styleFrom(primary: Colors.blue.shade700),),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -146,10 +176,7 @@ class _PaymetDone_ScreenState extends State<PaymetDone_Screen> {
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      //get today's date
-      firstDate: DateTime(2020),
-      //DateTime.now() - not to allow to choose before today.
-      lastDate: DateTime(2999),
+      firstDate: DateTime(2020), lastDate: DateTime(2999),
     );
     if(pickedDate != null ){
       String formattedDate = DateFormat('dd-MM-yyyy').format(pickedDate);

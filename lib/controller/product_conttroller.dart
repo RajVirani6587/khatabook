@@ -28,9 +28,10 @@ class Product_Controller extends GetxController{
   RxInt mainpandingSum = 0.obs;
   RxInt maindoneSum = 0.obs;
 
+
   void topaddition() async{
     DbHelper db = DbHelper();
-    ProductList2.value = await db.ProreadData();
+    ProductList2.value = await db.ProreadData(cilent_controller.Datapick!.id);
 
     int v = 0;
     mainpandingSum.value=0;
@@ -42,10 +43,12 @@ class Product_Controller extends GetxController{
       mainpandingSum.value =  int.parse(ProductList2[v]['price']) + mainpandingSum.value;
         }
       }
+
+
+
       Producte_Model ? Datapick2;
 
   RxString FilterDate = "".obs;
-
 
   var Date = DateTime.now();
 

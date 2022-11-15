@@ -36,13 +36,13 @@ class _FilterDate_ScreenState extends State<FilterDate_Screen> {
           backgroundColor: Colors.blue.shade700,
           elevation: 0,
           title: Text(
-            "Data",
+            "History",
             style: TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
           ),
           actions: [
             IconButton(
                 onPressed: () {
-                  datepickerdialog ();
+                  datepickerdialog();
                   //print(homeController.filterdate.value);
                   getData();
                 },
@@ -53,97 +53,103 @@ class _FilterDate_ScreenState extends State<FilterDate_Screen> {
           children: [
             Padding(
               padding: const EdgeInsets.all(12.0),
-            child: Container(
-                height: 60,
-                width: MediaQuery.of(context).size.width*0.99,
+              child: Container(
                 child: Row(
                   children: [
-                    Container(
-                      height: 60,
-                      width: MediaQuery.of(context).size.width*0.60,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 10),
-                            child: Text("Date/Quantity"),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 5),
-                            child: Text("Remark"),
-                          ),
-                        ],
-                      ),
+                    Text(
+                      "Date/Time",
+                      style: TextStyle(color: Colors.black),
                     ),
-                    Container(
-                      height: 60,
-                      width: MediaQuery.of(context).size.width*0.35,
-                      child:Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Remaind"),
-                          SizedBox(width: 10,),
-                          Container(height: 15,width: 0.5,color: Colors.black,),
-                          SizedBox(width: 10,),
-                          Text("Done"),
-                        ],
-                      ),
+                    SizedBox(
+                      width: 65,
+                    ),
+                    Text(
+                      "Remark",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text(
+                      "You Gave | You Got",
+                      style: TextStyle(),
                     ),
                   ],
                 ),
               ),
             ),
-
-
-            Obx(()=>
-                ListView.builder(
+            Obx(() =>
+                Expanded(
+                child: ListView.builder(
                   itemCount:product_controller.ProductList.length,
-                  itemBuilder: (context,index){
-                    return   Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InkWell(
-                        onTap: (){
-                        },
-                        child: Container(
-                          color: Colors.black12,
-                          height: 60,
-                          width: MediaQuery.of(context).size.width*0.99,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Container(
+                        height: 70,
+                        width: double.infinity,
+                        color: Colors.grey.shade900,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Container(
-                                height: 60,
-                                width: MediaQuery.of(context).size.width*0.55,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 110,
+                                    alignment: Alignment.centerLeft,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
                                       children: [
-                                        Text("${product_controller.ProductList[index]['purchase_date']}"),
-                                        Text("${product_controller.ProductList[index]['quantity']}",)
+                                        Text(
+                                          "${product_controller.ProductList[index]['purchase_date']}",
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        Text(
+                                          "${product_controller.ProductList[index]['quantity']}",
+                                          style: TextStyle(color: Colors.grey),
+                                        ),
                                       ],
                                     ),
-                                    Text("${product_controller.ProductList[index]['product_name']}"),
-                                  ],
-                                ),
+                                  ),
+                                  Container(
+                                    width: 70,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      "${product_controller.ProductList[index]['product_name']}",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              SizedBox(width: 10,),
-                              Container(
-                                height: 60,
-                                width:MediaQuery.of(context).size.width*0.19,
-                                color: Colors.red.shade200,
-                                child: Center(
-                                  child: Text("${product_controller.ProductList[index]['payment_status'] == 1 ? '₹ 0' : '₹ ${product_controller.ProductList[index]['price']}'}",style: TextStyle(color: Colors.red),),
-                                ),
-                              ),
-                              Container(
-                                height: 60,
-                                width:MediaQuery.of(context).size.width*0.19,
-                                color: Colors.greenAccent,
-                                child: Center(
-                                  child: Text("${product_controller.ProductList[index]['payment_status'] == 0 ? '₹ 0' : '₹ ${product_controller.ProductList[index]['price']}'}",style: TextStyle(color: Colors.green),),
-                                ),
-                              ),
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 70,
+                                    alignment: Alignment.center,
+                                    color: Colors.red,
+                                    child: product_controller.ProductList[index]['payment_status'] == 1 ?
+                                    Text("${product_controller.ProductList[index]['price']}", style: TextStyle(color: Colors.white),):
+                                    Text(""),
+                                  ),
+                                  Container(
+                                    width: 70,
+                                    alignment: Alignment.center,
+                                    color: Colors.green,
+                                    child: product_controller.ProductList[index]
+                                    ['payment_status'] ==
+                                        0
+                                        ? Text(
+                                      "${product_controller.ProductList[index]['price']}",
+                                      style:
+                                      TextStyle(color: Colors.white),
+                                    )
+                                        : Text(""),
+                                  ),
+                                ],
+                              )
                             ],
                           ),
                         ),
@@ -151,94 +157,8 @@ class _FilterDate_ScreenState extends State<FilterDate_Screen> {
                     );
                   },
                 ),
+              ),
             ),
-            // Obx(
-            //       () => Expanded(
-            //     child: ListView.builder(
-            //       itemCount: product_controller.ProductList.length,
-            //       itemBuilder: (context, index) {
-            //         return Padding(
-            //           padding: const EdgeInsets.all(10),
-            //           child: Container(
-            //             height: 70,
-            //             width:  MediaQuery.of(context).size.width*0.99,
-            //             color: Colors.grey.shade900,
-            //             child: Padding(
-            //               padding: const EdgeInsets.all(8.0),
-            //               child: Row(
-            //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //                 children: [
-            //                   Row(
-            //                     children: [
-            //                       Container(
-            //                         width:  MediaQuery.of(context).size.width*0.,
-            //                         alignment: Alignment.centerLeft,
-            //                         child: Column(
-            //                           mainAxisAlignment:
-            //                           MainAxisAlignment.center,
-            //                           children: [
-            //                             Text(
-            //                               "${product_controller.ProductList[index]['date']}",
-            //                               style: TextStyle(color: Colors.white),
-            //                             ),
-            //                             Text(
-            //                               "${product_controller.ProductList[index]['time']}",
-            //                               style: TextStyle(color: Colors.grey),
-            //                             ),
-            //                           ],
-            //                         ),
-            //                       ),
-            //                       Container(
-            //                         width: 70,
-            //                         alignment: Alignment.center,
-            //                         child: Text(
-            //                           "${product_controller.ProductList[index]['name']}",
-            //                           style: TextStyle(color: Colors.white),
-            //                         ),
-            //                       ),
-            //                     ],
-            //                   ),
-            //                   Row(
-            //                     children: [
-            //                       Container(
-            //                         width: 70,
-            //                         alignment: Alignment.center,
-            //                         color: Colors.red,
-            //                         child: product_controller.ProductList[index]
-            //                         ['payment_status'] ==
-            //                             1
-            //                             ? Text(
-            //                           "${product_controller.ProductList[index]['amount']}",
-            //                           style:
-            //                           TextStyle(color: Colors.white),
-            //                         )
-            //                             : Text(""),
-            //                       ),
-            //                       Container(
-            //                         width: 70,
-            //                         alignment: Alignment.center,
-            //                         color: Colors.green,
-            //                         child:product_controller.ProductList[index]
-            //                         ['payment_status'] ==
-            //                             0
-            //                             ? Text(
-            //                           "${product_controller.ProductList[index]['amount']}",
-            //                           style:
-            //                           TextStyle(color: Colors.white),
-            //                         )
-            //                             : Text(""),
-            //                       ),
-            //                     ],
-            //                   )
-            //                 ],
-            //               ),
-            //             ),
-            //           ),
-            //         );
-            //       },
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),

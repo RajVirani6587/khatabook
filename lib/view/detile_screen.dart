@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:khatabook/controller/cilent_controller.dart';
 import 'package:khatabook/controller/product_conttroller.dart';
+import 'package:khatabook/view/firstScreen.dart';
 import 'package:khatabook/view/paymetRemaind_Screen.dart';
 import 'package:khatabook/view/paynetdone_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -35,8 +36,9 @@ class _Detile_ScreenState extends State<Detile_Screen> {
   void getData()async{
     DbHelper db = DbHelper();
     cilent_controller.CilentList.value = await db.readData();
-    product_controller.ProductList.value = await db.ProreadData();
+    product_controller.ProductList.value = await db.ProreadData(cilent_controller.Datapick!.id);
     product_controller.addition();
+    product_controller.topaddition();
 
   }
   @override
@@ -125,7 +127,13 @@ class _Detile_ScreenState extends State<Detile_Screen> {
                   children: [
                     IconButton(onPressed: (){}, icon: Icon(Icons.picture_as_pdf,color: Colors.blue.shade700,size: 35,)),
                     IconButton(onPressed: (){}, icon: Icon(Icons.currency_rupee,color: Colors.blue.shade700,size: 35,)),
-                    IconButton(onPressed: (){}, icon: Icon(Icons.whatsapp,color: Colors.blue.shade700,size: 35,)),
+                    IconButton(onPressed: () async => await launch(
+                          "https://wa.me/+91${cilent_controller.Datapick!.mobile}?text=Hello Mr ."
+                              "${cilent_controller.Datapick!.name} from ${cilent_controller.Datapick!.address}"
+                              " Your Date To Pay Your Bill is Here Please Kindly Pay As Soon As Possible"),
+
+
+                     icon: Icon(Icons.whatsapp,color: Colors.blue.shade700,size: 35,)),
                     IconButton(onPressed: (){}, icon: Icon(Icons.sticky_note_2_outlined,color: Colors.blue.shade700,size: 35,)),
                   ],
                 ),
@@ -180,8 +188,6 @@ class _Detile_ScreenState extends State<Detile_Screen> {
                        padding: const EdgeInsets.all(8.0),
                        child: InkWell(
                          onTap: (){
-
-
                            utxtproductname  =TextEditingController(text: "${product_controller.ProductList.value[index]['product_name']}");
                            utxtquantity     =TextEditingController(text: "${product_controller.ProductList.value[index]['quantity']}");
                            utxtprice        =TextEditingController(text: "${product_controller.ProductList.value[index]['price']}");
