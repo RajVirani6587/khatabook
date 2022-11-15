@@ -35,7 +35,9 @@ class _Detile_ScreenState extends State<Detile_Screen> {
   void getData()async{
     DbHelper db = DbHelper();
     cilent_controller.CilentList.value = await db.readData();
-    product_controller.ProductList.value = await db.ProreadData(cilent_controller.Datapick!.id!);
+    product_controller.ProductList.value = await db.ProreadData();
+    product_controller.addition();
+
   }
   @override
   Widget build(BuildContext context) {
@@ -79,9 +81,11 @@ class _Detile_ScreenState extends State<Detile_Screen> {
                               padding: EdgeInsets.all(8),
                               child: Text("Total Income",style: TextStyle(fontSize: 20),),
                             ),
-                            Padding(
-                              padding:  EdgeInsets.all(8.0),
-                              child: Text("₹ 0",style: TextStyle(fontSize: 20,color: Colors.green),),
+                            Obx(()=>
+                               Padding(
+                                padding:  EdgeInsets.all(8.0),
+                                child: Text("₹ ${product_controller.doneSum.value}",style: TextStyle(fontSize: 20,color: Colors.green),),
+                              ),
                             ),
                           ],
                         ),
@@ -95,9 +99,11 @@ class _Detile_ScreenState extends State<Detile_Screen> {
                               padding: EdgeInsets.all(8),
                               child: Text("Total Expense",style: TextStyle(fontSize: 20),),
                             ),
-                            Padding(
-                              padding:  EdgeInsets.all(8.0),
-                              child: Text("₹ 0",style: TextStyle(fontSize: 20,color: Colors.red),),
+                            Obx(()=>
+                               Padding(
+                                padding:  EdgeInsets.all(8.0),
+                                child: Text("₹ ${product_controller.pandingSum.value}",style: TextStyle(fontSize: 20,color: Colors.red),),
+                              ),
                             ),
                           ],
                         ),
@@ -312,4 +318,7 @@ class _Detile_ScreenState extends State<Detile_Screen> {
       ),
     );
   }
+
+
+
 }

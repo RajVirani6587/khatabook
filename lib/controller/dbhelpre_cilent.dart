@@ -51,12 +51,29 @@ class DbHelper{
   }
 
 
-  Future<List<Map>> ProreadData(String id)async{
+  Future<List<Map>> ProreadData({String? id})async{
     db= await checkDatabase();
-    String query = "SELECT * FROM product where client_id = $id";
+    String query = "";
+    if(id!=null)
+      {
+        query = "SELECT * FROM product where client_id = $id";
+      }
+    else
+      {
+        query = "SELECT * FROM product";
+      }
     List<Map> ProductList = await db!.rawQuery(query,null);
     return ProductList;
   }
+
+  Future<List<Map>> ProductFilterreaddata(String? date) async {
+    db = await checkDatabase();
+    String query = "SELECT * FROM product where date = ?";
+    List<Map> ProductList = await db!.rawQuery(query, [date]);
+
+    return ProductList;
+  }
+
   void ProinsertData(String n1,String q1 ,String p1,String pq,int clientId,int status)async{
     db =  await checkDatabase();
     db!.insert("product", {"product_name":n1,"quantity":q1,"price":p1,"purchase_date":pq,"client_id":clientId,"payment_status":status});

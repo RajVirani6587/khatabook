@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:khatabook/controller/product_conttroller.dart';
 import 'package:khatabook/model/data_Model.dart';
 import 'package:khatabook/view/add%20_customer_Screen.dart';
 import 'package:khatabook/view/detile_screen.dart';
+import 'package:khatabook/view/filterData_screen.dart';
 import '../controller/cilent_controller.dart';
 import '../controller/dbhelpre_cilent.dart';
 
@@ -16,6 +18,7 @@ class First_Screen extends StatefulWidget {
 class _First_ScreenState extends State<First_Screen> {
 
   Cilent_Controller cilent_controller = Get.put(Cilent_Controller());
+  Product_Controller product_controller = Get.put(Product_Controller());
 
   TextEditingController utxtaddress =TextEditingController();
   TextEditingController utxtname =TextEditingController();
@@ -30,6 +33,10 @@ class _First_ScreenState extends State<First_Screen> {
   void getData()async{
     DbHelper db = DbHelper();
     cilent_controller.CilentList.value = await db.readData();
+    product_controller.ProductList.value = await db.ProreadData();
+    product_controller.addition();
+    product_controller.topaddition();
+
   }
   @override
   Widget build(BuildContext context) {
@@ -49,7 +56,9 @@ class _First_ScreenState extends State<First_Screen> {
                 child: ListTile(
                   leading: Icon(Icons.dehaze_outlined,color: Colors.white,),
                   title: Text("Khatabook",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
-                  trailing: Icon(Icons.date_range,color: Colors.white,),
+                  trailing: InkWell(onTap: (){
+                         Get.to(FilterDate_Screen());
+                  },child: Icon(Icons.date_range,color: Colors.white,)),
                 ),
               ),
             ),
@@ -80,7 +89,10 @@ class _First_ScreenState extends State<First_Screen> {
                               children: [
                                 Text("Paymet Done"),
                                 SizedBox(height:15,),
-                                Text("₹ 0",style: TextStyle(color: Colors.green,fontWeight: FontWeight.bold,fontSize: 25),),
+                                Obx(()=>
+                                    Text("₹ ${product_controller.maindoneSum.value}",
+                                      style: TextStyle(color: Colors.green,
+                                          fontWeight: FontWeight.bold,fontSize: 25),)),
                               ],
                             ),
                             Container(height: 50,width: 0.5,color: Colors.black,),
@@ -88,7 +100,7 @@ class _First_ScreenState extends State<First_Screen> {
                               children: [
                                 Text("Paymet Remaind"),
                                 SizedBox(height: 15,),
-                                Text("₹ 0",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold,fontSize: 25),),
+                                Obx(()=> Text("₹ ${product_controller.mainpandingSum.value}",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold,fontSize: 25),)),
                               ],
                             ),
                           ],
