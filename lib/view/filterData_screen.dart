@@ -17,9 +17,8 @@ class _FilterDate_ScreenState extends State<FilterDate_Screen> {
 
   DbHelper db = DbHelper();
 
-  void getData() async {
-    product_controller.ProductList.value =
-    await db.ProductFilterreaddata(product_controller.FilterDate.value);
+  void getData()  async{
+    product_controller.ProductList.value = await db.ProreadData();
   }
 
   @override
@@ -39,40 +38,48 @@ class _FilterDate_ScreenState extends State<FilterDate_Screen> {
             "History",
             style: TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
           ),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  datepickerdialog();
-                  //print(homeController.filterdate.value);
-                  getData();
-                },
-                icon: Icon(Icons.filter_alt)),
-          ],
         ),
         body: Column(
           children: [
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: Container(
+                width: MediaQuery.of(context).size.width*0.99,
                 child: Row(
                   children: [
-                    Text(
-                      "Date/Time",
-                      style: TextStyle(color: Colors.black),
+                    Container(
+                      width: MediaQuery.of(context).size.width*0.55,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Date/Time",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          SizedBox(
+                            width: 65,
+                          ),
+                          Text(
+                            "Remark",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ],
+                      ),
                     ),
-                    SizedBox(
-                      width: 65,
-                    ),
-                    Text(
-                      "Remark",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Text(
-                      "You Gave | You Got",
-                      style: TextStyle(),
+                    SizedBox(width: MediaQuery.of(context).size.width*0.002,),
+
+                    Container(
+                      width: MediaQuery.of(context).size.width*0.38,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(width: MediaQuery.of(context).size.width*0.18,
+                              child: Center(child: Text("You Gave",style: TextStyle(fontSize: 13),))),
+                          Container(height: 20,width: 0.7,color: Colors.black,),
+                          Container(width: MediaQuery.of(context).size.width*0.18,
+                              child: Center(child: Text("You Got",style: TextStyle(fontSize: 13),))),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -86,72 +93,60 @@ class _FilterDate_ScreenState extends State<FilterDate_Screen> {
                     return Padding(
                       padding: const EdgeInsets.all(10),
                       child: Container(
-                        height: 70,
-                        width: double.infinity,
-                        color: Colors.grey.shade900,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
+                        height: 60,
+                        width: MediaQuery.of(context).size.width*0.99,
+                        color: Colors.black12,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              height: 60,
+                              width: MediaQuery.of(context).size.width*0.55,
+                              alignment: Alignment.centerLeft,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Container(
-                                    width: 110,
-                                    alignment: Alignment.centerLeft,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          "${product_controller.ProductList[index]['purchase_date']}",
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                        Text(
-                                          "${product_controller.ProductList[index]['quantity']}",
-                                          style: TextStyle(color: Colors.grey),
-                                        ),
-                                      ],
-                                    ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Text(
+                                        "${product_controller.ProductList[index]['purchase_date']}",
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                      Text(
+                                        "${product_controller.ProductList[index]['quantity']}",
+                                        style: TextStyle(color: Colors.black54),
+                                      ),
+                                    ],
                                   ),
-                                  Container(
-                                    width: 70,
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      "${product_controller.ProductList[index]['product_name']}",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
+                                  Text(
+                                    "${product_controller.ProductList[index]['product_name']}",
+                                    style: TextStyle(color: Colors.black),
                                   ),
                                 ],
                               ),
-                              Row(
-                                children: [
-                                  Container(
-                                    width: 70,
-                                    alignment: Alignment.center,
-                                    color: Colors.red,
-                                    child: product_controller.ProductList[index]['payment_status'] == 1 ?
-                                    Text("${product_controller.ProductList[index]['price']}", style: TextStyle(color: Colors.white),):
-                                    Text(""),
-                                  ),
-                                  Container(
-                                    width: 70,
-                                    alignment: Alignment.center,
-                                    color: Colors.green,
-                                    child: product_controller.ProductList[index]
-                                    ['payment_status'] ==
-                                        0
-                                        ? Text(
-                                      "${product_controller.ProductList[index]['price']}",
-                                      style:
-                                      TextStyle(color: Colors.white),
-                                    )
-                                        : Text(""),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width*0.19,
+                                  alignment: Alignment.center,
+                                  color: Colors.red,
+                                  child: product_controller.ProductList[index]['payment_status'] == 0 ?
+                                  Text("${product_controller.ProductList[index]['price']}", style: TextStyle(color: Colors.white),):
+                                  Text("₹ 0",style: TextStyle(color: Colors.white),),
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width*0.19,
+                                  alignment: Alignment.center,
+                                  color: Colors.green,
+                                  child: product_controller.ProductList[index]['payment_status'] == 1 ?
+                                  Text("${product_controller.ProductList[index]['price']}", style: TextStyle(color: Colors.white),) :
+                                  Text("₹ 0",style: TextStyle(color: Colors.white),),
+                                ),
+                              ],
+                            )
+                          ],
                         ),
                       ),
                     );
@@ -163,17 +158,5 @@ class _FilterDate_ScreenState extends State<FilterDate_Screen> {
         ),
       ),
     );
-  }
-
-  void datepickerdialog () async {
-    var date = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2001),
-        lastDate: DateTime(3000));
-    product_controller.getData(date);
-    if (date != null) {
-      product_controller.FilterDate.value = DateFormat('dd-MM-yyyy').format(date);
-    }
   }
 }

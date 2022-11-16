@@ -64,6 +64,7 @@ class _AddCustomer_ScreenState extends State<AddCustomer_Screen> {
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: TextField(
+                  keyboardType: TextInputType.numberWithOptions(),
                   controller: txtmoblie,
                   decoration: InputDecoration(
                       prefixIcon: Icon(Icons.call),
