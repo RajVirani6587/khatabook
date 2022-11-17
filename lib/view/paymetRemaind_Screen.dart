@@ -26,7 +26,12 @@ class _paymetRemaind_ScreenState extends State<paymetRemaind_Screen> {
   TextEditingController txtprice = TextEditingController();
   TextEditingController txtpurchasedate = TextEditingController();
 
-
+  // int q=0;
+  // String get='0';
+  // double price = 0, finalPrice = 0;
+  // allRows.forEach((row) {
+  // amount += double.parse(row['quantity']) * double.parse(row['price']);
+  // });
 
   @override
   void initState() {

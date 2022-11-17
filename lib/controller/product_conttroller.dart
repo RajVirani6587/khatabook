@@ -47,8 +47,6 @@ class Product_Controller extends GetxController{
         }
       }
 
-
-
       Producte_Model ? Datapick2;
 
   RxString FilterDate = "".obs;
